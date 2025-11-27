@@ -100,7 +100,7 @@ class SFVectorDataProvider(QgsVectorDataProvider):
             self._is_limited_unordered = check_from_clause_exceeds_size(
                 from_clause=self._from_clause,
                 context_information=self._context_information,
-                limit_size=limit_size_for_type(self._geo_column_type),
+                limit_size=limit_size_for_type(self._geo_column_type, self._connection_name),
             )
 
         self.get_geometry_column()
@@ -469,7 +469,7 @@ class SFGeoVectorDataProvider(SFVectorDataProvider):
                 self._feature_count = 0
             else:
                 if self._is_limited_unordered:
-                    self._feature_count = limit_size_for_type(self._geo_column_type)
+                    self._feature_count = limit_size_for_type(self._geo_column_type, self._connection_name)
                 else:
                     query = f"SELECT COUNT(*) FROM {self._from_clause}"
                     if self.subsetString():
@@ -543,7 +543,7 @@ class SFH3VectorDataProvider(SFVectorDataProvider):
                 self._feature_count = 0
             else:
                 if self._is_limited_unordered:
-                    self._feature_count = limit_size_for_type(self._geo_column_type)
+                    self._feature_count = limit_size_for_type(self._geo_column_type, self._connection_name)
                     return self._feature_count
 
                 query = f"SELECT COUNT(*) FROM {self._from_clause}"

@@ -264,6 +264,9 @@ class SFDataSourceManagerWidget(QgsAbstractDataSourceWidget, FORM_CLASS_SFDSM):
                 if "role" in auth_information:
                     another_window.txtRole.setText(auth_information["role"])
 
+                if "row_limit" in auth_information:
+                    another_window.spinRowLimit.setValue(auth_information["row_limit"])
+
                 if auth_information["password_encrypted"]:
                     m_auth_settings_tab_widget: QTabWidget = (
                         another_window.mAuthSettings.findChild(QTabWidget)

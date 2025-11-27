@@ -677,6 +677,11 @@ ORDER BY {column_name}"""
         if "role" in auth_information:
             sf_connection_string_dialog_window.txtRole.setText(auth_information["role"])
 
+        if "row_limit" in auth_information:
+            sf_connection_string_dialog_window.spinRowLimit.setValue(
+                int(auth_information["row_limit"])
+            )
+
         if auth_information["password_encrypted"]:
             m_auth_settings_tab_widget: QTabWidget = (
                 sf_connection_string_dialog_window.mAuthSettings.findChild(QTabWidget)

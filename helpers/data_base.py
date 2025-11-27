@@ -517,16 +517,35 @@ def get_geo_column_type(
 
 def limit_size_for_type(
     column_type: str,
+    connection_name: str = None,
 ) -> int:
     """
-    The limit number of rows to be fetched from a table. Currently 50k by default, and 500k for H3 columns
+    The limit number of rows to be fetched from a table. 
+    Uses custom row limit from connection settings if specified (non-zero), 
+    otherwise defaults to 50k for standard geometry and 500k for H3 columns.
 
     Args:
         column_type (str): The type of the column
+        connection_name (str, optional): The connection name to retrieve custom row limit
 
     Returns:
         int: The size limit.
     """
+    # Check if connection has a custom row limit configured
+    if connection_name:
+        try:
+            from ..helpers.utils import get_qsettings
+            settings = get_qsettings()
+            settings.beginGroup(f"connections/{connection_name}")
+            custom_limit = int(settings.value("row_limit", defaultValue=0))
+            settings.endGroup()
+            
+            if custom_limit > 0:
+                return custom_limit
+        except Exception:
+            pass  # Fall back to default if there's any error
+    
+    # Default limits based on column type
     if column_type in ["NUMBER", "TEXT", "H3GEO"]:
         return 500000  # 500k
     return 50000  # 50k
@@ -544,7 +563,8 @@ def limit_size_for_table(
     Returns:
         int: The size limit.
     """
-    return limit_size_for_type(context_information["geom_type"])
+    connection_name = context_information.get("connection_name")
+    return limit_size_for_type(context_information["geom_type"], connection_name)
 
 
 def check_table_exceeds_size(

@@ -228,7 +228,7 @@ class SFFeatureIterator(QgsAbstractFeatureIterator):
 
             order_limit_clause = ""
             if self._provider._is_limited_unordered:
-                order_limit_clause = f" ORDER BY RANDOM() LIMIT {limit_size_for_type(self._provider._geo_column_type)}"
+                order_limit_clause = f" ORDER BY RANDOM() LIMIT {limit_size_for_type(self._provider._geo_column_type, self._provider._connection_name)}"
 
             self.final_query = (
                 "select * from ("

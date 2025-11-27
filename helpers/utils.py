@@ -108,6 +108,7 @@ def get_authentification_information(settings: QSettings, connection_name: str) 
     auth_info["connection_type"] = settings.value("connection_type", defaultValue="")
     auth_info["password"] = settings.value("password", defaultValue="")
     auth_info["config_id"] = settings.value("config_id", defaultValue="")
+    auth_info["row_limit"] = int(settings.value("row_limit", defaultValue=0))
     auth_info["password_encrypted"] = settings.value(
         "password_encrypted", defaultValue=False
     )
@@ -207,6 +208,8 @@ def set_connection_settings(connection_settings: dict) -> None:
     settings.setValue("database", connection_settings["database"])
     settings.setValue("username", connection_settings["username"])
     settings.setValue("connection_type", connection_settings["connection_type"])
+    if "row_limit" in connection_settings:
+        settings.setValue("row_limit", connection_settings["row_limit"])
     if "role" in connection_settings:
         settings.setValue("role", connection_settings["role"])
     if connection_settings["connection_type"] == "Default Authentication":

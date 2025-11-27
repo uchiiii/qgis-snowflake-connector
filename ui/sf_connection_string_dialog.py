@@ -9,6 +9,7 @@ from qgis.PyQt.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QComboBox,
+    QSpinBox,
 )
 import os
 import typing
@@ -46,6 +47,7 @@ class SFConnectionStringDialog(QDialog, FORM_CLASS_SFCS):
         self.txtWarehouse: QLineEdit
         self.txtAccount: QLineEdit
         self.txtRole: QLineEdit
+        self.spinRowLimit: QSpinBox
         self.btnConnect: QDialogButtonBox
         self.buttonBox: QDialogButtonBox
         self.cbxConnectionType: QComboBox
@@ -80,7 +82,7 @@ class SFConnectionStringDialog(QDialog, FORM_CLASS_SFCS):
         self.cb_geometryColumnsOnly.setVisible(False)
         self.cb_dontResolveType.setVisible(False)
         self.cb_publicSchemaOnly.setVisible(False)
-        self.cb_allowGeometrylessTables.setVisible(False)
+        # self.cb_allowGeometrylessTables.setVisible(False)
         self.cb_useEstimatedMetadata.setVisible(False)
         self.cb_projectsInDatabase.setVisible(False)
         self.cb_metadataInDatabase.setVisible(False)
@@ -172,6 +174,7 @@ class SFConnectionStringDialog(QDialog, FORM_CLASS_SFCS):
                 "database": self.txtDatabase.text(),
                 "connection_type": self.cbxConnectionType.currentText(),
                 "password_encrypted": config_tab_selected,
+                "row_limit": self.spinRowLimit.value(),
             }
 
             is_default_auth = (
