@@ -53,17 +53,17 @@ LOCALES =
 # translation
 SOURCES = \
 	__init__.py \
-	qgis_snowflake_connector.py 
+	qgis_snowflake_connector.py
 
 PLUGINNAME = qgis_snowflake_connector
 
 PY_FILES = \
 	__init__.py \
-	qgis_snowflake_connector.py 
+	qgis_snowflake_connector.py
 
-UI_FILES = 
+UI_FILES =
 
-EXTRAS = metadata.txt 
+EXTRAS = metadata.txt
 
 EXTRA_DIRS =
 
@@ -99,7 +99,7 @@ default:
 	@echo A Python script, pb_tool provides platform independent management of
 	@echo your plugins and runs anywhere.
 	@echo You can install pb_tool using: pip install pb_tool
-	@echo See https://g-sherman.github.io/plugin_build_tool/ for info. 
+	@echo See https://g-sherman.github.io/plugin_build_tool/ for info.
 
 compile: $(COMPILED_RESOURCE_FILES)
 
