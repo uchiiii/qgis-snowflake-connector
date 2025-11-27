@@ -38,6 +38,14 @@ class SFFeatureIterator(QgsAbstractFeatureIterator):
         self._request = request if request is not None else QgsFeatureRequest()
         self._transform = QgsCoordinateTransform()
 
+        # Debug: Log if we received a proper request with filter rect
+        if not self._request.filterRect().isNull():
+            QgsMessageLog.logMessage(
+                f"SFFeatureIterator: Received filter rect: {self._request.filterRect().toString()}",
+                "Snowflake Plugin",
+                Qgis.MessageLevel.Info,
+            )
+
         if (
             self._request.destinationCrs().isValid()
             and self._request.destinationCrs() != source._provider.crs()
@@ -174,12 +182,13 @@ class SFFeatureIterator(QgsAbstractFeatureIterator):
             # Apply the geometry filter
             filter_geom_clause = ""
             if not filter_rect.isNull():
+                QgsMessageLog.logMessage(f"Applying geometry filter with type: {self._provider._geometry_type}", "Snowflake Plugin", Qgis.Info)
                 if self._provider._geometry_type == "GEOMETRY":
                     filter_geom_clause = (
                         f'ST_INTERSECTS("{geom_column}", '
                         f"ST_GEOMETRYFROMWKT('{filter_rect.asWktPolygon()}'))"
                     )
-                if self._provider._geometry_type == "GEOGRAPHY":
+                if self._provider._geometry_type in ["GEOGRAPHY", "LineString", "Polygon", "MultiPolygon", "MultiPoint", "Point"]:
                     filter_geom_clause = (
                         f'ST_INTERSECTS("{geom_column}", '
                         f"ST_GEOGRAPHYFROMWKT('{filter_rect.asWktPolygon()}'))"
