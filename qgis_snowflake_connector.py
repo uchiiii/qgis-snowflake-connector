@@ -140,7 +140,7 @@ class QGISSnowflakeConnectorPlugin(object):
             # Add toolbar button for reloading active Snowflake layer
             if self.iface:
                 self.toolbar_action = QAction(
-                    QIcon(":/plugins/qgis_snowflake_connector/icon.png"),
+                    QIcon(":/plugins/qgis-snowflake-connector/icon.png"),
                     "Reload Snowflake Layer",
                     self.iface.mainWindow()
                 )
