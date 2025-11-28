@@ -220,7 +220,7 @@ class SFFeatureIterator(QgsAbstractFeatureIterator):
                 geom_query = ""
 
             if self._provider.primary_key() == "":
-                index = "ROW_NUMBER() OVER (order by 1) as sfindexsfrownumberauto "
+                index = "UUID_STRING() as sfindexsfrownumberauto "
             else:
                 index = self._provider._fields[self._provider.primary_key()].name()
 
